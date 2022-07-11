@@ -79,20 +79,6 @@ FROM (
 
 
 /*
-Table Demo
-*/
-
-SELECT TOP 100 *
-FROM divvy_tripdata;
-
-SELECT
-	COUNT(*)
-FROM
-	divvy_tripdata
-WHERE
-	ride_duration_seconds < (60 * 2);
-
-/*
 COUNT() check on the new table and the original total came to 5717608 rows
 */
 
@@ -211,22 +197,12 @@ WHERE
 Count of the number of each distinct rideable types of bikes.
 */
 
-/*
-Something to note is that there are no records of members riding docked bikes
-
-Unfortunately, for this project there is no one that I can contact to find out what a 'docked_bike' is 
-or why the members have no record of using them.  Therefore, the records that contain 'docked_bike' need
-to be eliminated so as not to skew the other results.
-*/
-
 SELECT 
 	rideable_type AS 'Rideable Type'
 	,member_casual AS 'Rider Type'
 	,COUNT(*) AS 'Numer of Rideable Type'
 FROM 
 	divvy_tripdata
-WHERE
-	ride_duration_seconds >= 60
 GROUP BY 
 	rideable_type
 	,member_casual
@@ -234,6 +210,43 @@ ORDER BY
 	rideable_type
 	,member_casual;
 
+/*
+The following query is similar to the previous one except that the results are more refined through thre use of a CASE() pivot.
+*/
+
+SELECT
+	member_casual AS 'Member Type'
+	,COUNT(CASE WHEN rideable_type = 'classic_bike' THEN member_casual ELSE NULL END) AS 'Classic Bike'
+	,COUNT(CASE WHEN rideable_type = 'electric_bike' THEN member_casual ELSE NULL END) AS 'Electric Bike'
+FROM
+	divvy_tripdata
+GROUP BY
+	member_casual
+ORDER BY 
+	member_casual;
+
+/*
+Something to note is that there are no records of members riding docked bikes
+
+Unfortunately, for this project there is no one that I can contact to find out what a 'docked_bike' is 
+or why the members have no records of using them.  Therefore, the records that contain 'docked_bike' need
+to be eliminated so as not to skew the other results.
+*/
+
+DELETE
+FROM 
+	divvy_tripdata
+WHERE
+	rideable_type = 'docked_bike';
+
+-- COUNT() check to verify
+
+SELECT
+	COUNT(*)
+FROM
+	divvy_tripdata
+WHERE
+	rideable_type = 'docked_bike';
 
 /*
 Count of the number of each distinct member types
@@ -246,53 +259,15 @@ SELECT
 	,COUNT(*) AS 'Number of Each Type'
 FROM 
 	divvy_tripdata
-WHERE
-	ride_duration_seconds >= 60
-	AND rideable_type != 'docked_bike'
 GROUP BY 
 	member_casual;
-
-/*
-I wanted to know what the most popular starting station was.  What I found was that the top spot belonged to a NULL.
-*/
-
-SELECT 
-	start_station_name
-	,COUNT(*) AS popular_start_station_name
-FROM 
-	divvy_tripdata
-WHERE
-	start_station_name != ' '  -- eliminate the NULLs in search condition
-	AND rideable_type != 'docked_bike'
-GROUP BY 
-	start_station_name	
-ORDER BY 
-	popular_start_station_name DESC;
-
-/*
-This is the same query as above only using the end station name
-*/
-
-SELECT 
-	end_station_name
-	,COUNT(*) AS popular_end_station_name
-FROM 
-	divvy_tripdata
-WHERE
-	end_station_name != ' '  -- eliminate the NULLs in search condition
-	AND rideable_type != 'docked_bike'
-GROUP BY 
-	end_station_name	
-ORDER BY 
-	popular_end_station_name DESC;
-
 
 /*
 Need to find the difference between ended_at and started_at as ride_duration
 
 https://www.sqlservercentral.com/articles/calculating-duration-using-datetime-start-and-end-dates-sql-spackle-2
 
-The ultimate goal is to find the AVG(ride_duration) overall, as well as AVG(ride_duration) for both members and casual riders.
+The goal is to find the AVG(ride_duration) overall, as well as AVG(ride_duration) for both members and casual riders.
 */
 
 
@@ -302,7 +277,7 @@ eliminated.
 */
 
 SELECT 
-	*
+	COUNT(*) AS 'Negative Time'
 FROM 
 	divvy_tripdata
 WHERE 
@@ -317,13 +292,6 @@ FROM
 	divvy_tripdata
 WHERE
 	started_at > ended_at;
-
-
-
-SELECT TOP 20 *
-	,(ended_at - started_at) AS ride_duration
-FROM 
-	divvy_tripdata;
 
 /*
 Finding the ride duration in seconds
@@ -354,7 +322,7 @@ SET ride_duration_seconds = DATEDIFF(SECOND, started_at, ended_at)
 
 
 /*
-Fiding rides that have a duration longer than 1 day?
+Finding rides that have a duration longer than 1 day.
 */
 
 SELECT TOP 100
@@ -369,8 +337,21 @@ SELECT TOP 100
 	(((ride_duration_seconds/60)/60)/24) AS ride_duration_days
 FROM
 	divvy_tripdata
+WHERE
+	(((ride_duration_seconds/60)/60)/24) >= 1
 ORDER BY 
 	ride_duration_seconds/60 DESC;
+
+/*
+Finding the longest ride duration
+*/
+
+SELECT TOP 1
+	*
+FROM
+	divvy_tripdata
+ORDER BY
+	ride_duration_seconds DESC;
 
 /*
 COUNT() of rides that last longer than 1 day
@@ -383,11 +364,7 @@ SELECT
 FROM
 	divvy_tripdata
 WHERE
-	ride_duration_seconds > (24*60*60)
- 	AND rideable_type != 'docked_bike';
-
-SELECT
-	24*60*60 AS seconds_in_a_day
+	ride_duration_seconds >= (24*60*60*1);
 
 /*
 AVG ride duration in minutes for all rides
@@ -396,10 +373,7 @@ AVG ride duration in minutes for all rides
 SELECT
 	AVG(ride_duration_seconds/60) AS 'Total AVG Minutes'  -- 18 minutes
 FROM
-	divvy_tripdata
-WHERE
-	ride_duration_seconds >= 60
-	AND rideable_type != 'docked_bike';
+	divvy_tripdata;
 
 /*
 AVG ride duration in minutes for members
@@ -410,8 +384,7 @@ SELECT
 FROM
 	divvy_tripdata
 WHERE
-	member_casual = 'member'
-	AND ride_duration_seconds >= 60;
+	member_casual = 'member';
 
 /*
 AVG ride duration in minutes for nonmembers/casual riders
@@ -422,9 +395,7 @@ SELECT
 FROM
 	divvy_tripdata
 WHERE
-	member_casual = 'casual'
-	AND ride_duration_seconds >= 60
-	AND rideable_type != 'docked_bike';
+	member_casual = 'casual';
 
 
 /*
@@ -438,12 +409,7 @@ SELECT
 	,AVG(CASE WHEN member_casual = 'casual' THEN (ride_duration_seconds/60) ELSE NULL END) AS 'Casual AVG Ride Duration'
 	,AVG(CASE WHEN member_casual = 'casual' OR member_casual = 'member' THEN (ride_duration_seconds/60) ELSE NULL END) AS 'Total AVG Ride Duration'
 FROM
-	divvy_tripdata
-WHERE
-	ride_duration_seconds >= 60
- 	AND ride_duration_seconds <= 14400  -- seconds in a 4 hour period
--- 	AND ride_duration_seconds <= 86400  -- seconds in a 24 hour period
- 	AND rideable_type != 'docked_bike';
+	divvy_tripdata;
 
 
 /*
@@ -457,12 +423,7 @@ SELECT
 	,AVG(CASE WHEN member_casual = 'casual' AND rideable_type = 'electric_bike' THEN (ride_duration_seconds/60) ELSE NULL END) AS 'Casual AVG Ride Duration Electric'
 	,AVG(CASE WHEN member_casual = 'casual' OR member_casual = 'member' THEN (ride_duration_seconds/60) ELSE NULL END) AS 'Total AVG Ride Duration'
 FROM
-	divvy_tripdata
-WHERE
-	ride_duration_seconds >= 60
- 	AND ride_duration_seconds <= 14400  -- seconds in a 4 hour period
--- 	AND ride_duration_seconds <= 86400  -- seconds in a 24 hour period
-	AND rideable_type != 'docked_bike';
+	divvy_tripdata;
 
 /*
 Using a CASE(PIVOT) to find the AVG ride_duration based on bicycle type.
@@ -473,12 +434,7 @@ SELECT
 	,AVG(CASE WHEN rideable_type = 'electric_bike' THEN (ride_duration_seconds/60) ELSE NULL END) AS 'AVG Ride Duration Electric'
 	,AVG(CASE WHEN rideable_Type = 'classic_bike' OR rideable_Type = 'electric_bike' THEN (ride_duration_seconds/60) ELSE NULL END) AS 'Total AVG Ride Duration'
 FROM
-	divvy_tripdata
-WHERE
-	ride_duration_seconds >= 60
- 	AND ride_duration_seconds <= 14400  -- seconds in a 4 hour period
--- 	AND ride_duration_seconds <= 86400  -- seconds in a 24 hour period
-	AND rideable_type != 'docked_bike';
+	divvy_tripdata;
 
 /*
 Longest ride duration
@@ -489,16 +445,12 @@ SELECT
 	,MAX((ride_duration_seconds/60)/60) AS 'Longest Ride Hours'
 	,MAX(((ride_duration_seconds/60)/60)/24) AS 'Longest Ride Days'
 FROM
-	divvy_tripdata
-WHERE
-	rideable_type != 'docked_bike';
+	divvy_tripdata;
 
 SELECT
 	 Top 1 *
 FROM
 	divvy_tripdata
-WHERE
-	rideable_type != 'docked_bike'
 ORDER BY ride_duration_seconds DESC;
 
 /*
@@ -512,8 +464,7 @@ SELECT
 FROM
 	divvy_tripdata
 WHERE
-	ride_duration_seconds/60 >= 1
-	AND rideable_type != 'docked_bike';
+	ride_duration_seconds/60 >= 1;
 
 SELECT
 	 Top 1 *
@@ -521,7 +472,6 @@ FROM
 	divvy_tripdata
 WHERE
 	ride_duration_seconds >= 1
-	AND rideable_type != 'docked_bike'
 ORDER BY ride_duration_seconds;
 
 
@@ -534,8 +484,17 @@ SELECT
 FROM 
 	divvy_tripdata
 WHERE
-	(ride_duration_seconds/60) = 1
-	AND rideable_type != 'docked_bike';
+	(ride_duration_seconds/60) < 1;
+
+/*
+Removing the records that have a ride duration of less than 1 minute
+*/
+
+DELETE
+FROM 
+	divvy_tripdata
+WHERE
+	(ride_duration_seconds/60) < 1;
 
 /*
 Extracting the day of the week that rides are started
@@ -555,9 +514,6 @@ SELECT
 	,COUNT(DATENAME(WEEKDAY, started_at)) AS rides_per_day_of_week
 FROM 
 	divvy_tripdata
-WHERE
-	ride_duration_seconds >= 60
-	AND rideable_type != 'docked_bike'
 GROUP BY
 	DATENAME(WEEKDAY, started_at);
 
@@ -570,9 +526,6 @@ SELECT
 	,COUNT(DATEPART(WEEKDAY, started_at)) AS 'Rides Per Day of Week'
 FROM
 	divvy_tripdata
-WHERE
-	ride_duration_seconds >= 60
-	AND rideable_type != 'docked_bike'
 GROUP BY
 	DATEPART(WEEKDAY, started_at)
 ORDER BY
@@ -589,9 +542,6 @@ SELECT
 	,COUNT(DATEPART(WEEKDAY, started_at)) AS 'Number of Rides'
 FROM
 	divvy_tripdata
-WHERE
-	ride_duration_seconds >= 60
-	AND rideable_type != 'docked_bike'
 GROUP BY
 	DATEPART(WEEKDAY, started_at)
 	,member_casual
@@ -600,20 +550,16 @@ ORDER BY
 
 
 /*
-Trying a COUNT(CASE()) or CASE() Pivot
+Using COUNT(CASE()) or CASE() Pivot
 The results of this query shows an ordered list of days of the week and a count of rides per day based on their rider type
 */
 
 SELECT
---	member_casual
 	DATEPART(WEEKDAY, started_at) AS 'Day of Week'
 	,COUNT(CASE WHEN member_casual = 'member' THEN member_casual ELSE NULL END) as 'Member'
 	,COUNT(CASE WHEN member_casual = 'casual' THEN member_casual ELSE NULL END) as 'Casual'
 FROM
 	divvy_tripdata
-WHERE
-	ride_duration_seconds >= 60
-	AND rideable_type != 'docked_bike'
 GROUP BY
 	member_casual
 	,DATEPART(WEEKDAY, started_at)
@@ -623,21 +569,53 @@ ORDER BY
 
 
 /*
+Finding the total daily rides by the member type and bike type.
+The idea here is to see if there is any insight to be gained from viewing the weekly trend on types of bikes ridden.
+*/
+
+SELECT 
+	DATEPART(WEEKDAY, started_at) AS 'Day of Week'
+	,COUNT(CASE WHEN member_casual = 'member' AND rideable_type = 'electric_bike' THEN DATEPART(WEEKDAY, started_at) ELSE NULL END) AS 'Member Electric'
+	,COUNT(CASE WHEN member_casual = 'member' AND rideable_type = 'classic_bike' THEN DATEPART(WEEKDAY, started_at) ELSE NULL END) AS 'Member Classic'
+	,COUNT(CASE WHEN member_casual = 'casual' AND rideable_Type = 'electric_bike' THEN DATEPART(WEEKDAY, started_at) ELSE NULL END) AS 'Casual Electric'
+	,COUNT(CASE WHEN member_casual = 'casual' AND rideable_Type = 'classic_bike' THEN DATEPART(WEEKDAY, started_at) ELSE NULL END) AS 'Casual Classic'
+FROM
+	divvy_tripdata
+GROUP BY
+	DATEPART(WEEKDAY, started_at)
+ORDER BY
+	DATEPART(WEEKDAY, started_at);
+
+/*
+Finding the average daily rides by the member type and bike type.
+The idea here is to see if there is any insight to be gained from viewing the weekly trend on types of bikes ridden and their use duration.
+*/
+
+SELECT 
+	DATEPART(WEEKDAY, started_at) AS 'Day of Week'
+	,AVG(CASE WHEN member_casual = 'member' AND rideable_type = 'electric_bike' THEN (ride_duration_seconds/60) ELSE NULL END) AS 'Member Electric'
+	,AVG(CASE WHEN member_casual = 'member' AND rideable_type = 'classic_bike' THEN (ride_duration_seconds/60) ELSE NULL END) AS 'Member Classic'
+	,AVG(CASE WHEN member_casual = 'casual' AND rideable_Type = 'electric_bike' THEN (ride_duration_seconds/60) ELSE NULL END) AS 'Casual Electric'
+	,AVG(CASE WHEN member_casual = 'casual' AND rideable_Type = 'classic_bike' THEN (ride_duration_seconds/60) ELSE NULL END) AS 'Casual Classic'
+FROM
+	divvy_tripdata
+GROUP BY
+	DATEPART(WEEKDAY, started_at)
+ORDER BY
+	DATEPART(WEEKDAY, started_at);
+
+/*
 Find the MODE for day of the week by member type.
 
 This sorts the results by the 'member' and 'casual' in DESC order.  The highest occurence in each column would be the MODE for each rider type. 
 */
 
 SELECT
---	member_casual
 	DATEPART(WEEKDAY, started_at) AS day_of_week
 	,COUNT(CASE WHEN member_casual = 'member' THEN member_casual ELSE NULL END) as member
 	,COUNT(CASE WHEN member_casual = 'casual' THEN member_casual ELSE NULL END) as casual
 FROM
 	divvy_tripdata
-WHERE
-	ride_duration_seconds >= 60
-	AND rideable_type != 'docked_bike'
 GROUP BY
 	member_casual
 	,DATEPART(WEEKDAY, started_at)
@@ -646,66 +624,39 @@ ORDER BY
 	,casual DESC;
 
 /*
+AVG() ride duration by day of the week
+
+members vs casual riders
+*/
+
+SELECT 
+	DATEPART(WEEKDAY, started_at) AS 'Day of Week'
+	,AVG(CASE WHEN member_casual = 'member' THEN (ride_duration_seconds/60) ELSE NULL END) AS 'Member AVG Ride Duration'
+	,AVG(CASE WHEN member_casual = 'casual' THEN (ride_duration_seconds/60) ELSE NULL END) AS 'Casual AVG Ride Duration'
+FROM
+	divvy_tripdata
+GROUP BY
+	DATEPART(WEEKDAY, started_at)
+ORDER BY
+	DATEPART(WEEKDAY, started_at);
+
+
+/*
 The results of this query shows an ordered list of months and a count of rides per month based on their rider type
 */
 
 SELECT
---	member_casual
 	DATEPART(MONTH, started_at) AS 'Month'
 	,COUNT(CASE WHEN member_casual = 'member' THEN member_casual ELSE NULL END) as 'Member'
 	,COUNT(CASE WHEN member_casual = 'casual' THEN member_casual ELSE NULL END) as 'Casual'
 FROM
 	divvy_tripdata
-WHERE
-	ride_duration_seconds >= 60
-	AND rideable_type != 'docked_bike'
 GROUP BY
 	member_casual
 	,DATEPART(MONTH, started_at)
 ORDER BY
 	member_casual
 	,'Month';
-
-
-
-/*
-What is a reasonable ride_duration?  Can we assume that there is a MINIMUM required length to a 
-ride_duration in order for it to be applicable?
-
-The query below shows that there are 512 rows where the ride_duration_seconds = 0
-These rows will need to be eliminated.
-
-Also, is there a MAXIMUM ride duration that should be condsidered?  The "typical" ride appears to be less than a day.
-Should all rides over a 12 hour period be removed?  Perhaps over 24 hours?
-*/
-
-SELECT
-	*
-FROM
-	divvy_tripdata
-WHERE 
-	--ride_duration_seconds = 0 AND
-	started_at = ended_at
-	AND rideable_type != 'docked_bike';
-
-
-SELECT TOP 1000
-	*
-FROM
-	divvy_tripdata
-WHERE 
-	--ride_duration_seconds = 0 AND
-	start_station_name = end_station_name
-	AND rideable_type != 'docked_bike'
-ORDER BY
-	ride_duration_seconds;
-
-SELECT
-	*
-FROM
-	divvy_tripdata
-WHERE 
-	ride_duration_seconds < 360;
 
 /*
 The query below shows that there are 2763 rides that are greater than 24 hours
@@ -716,22 +667,20 @@ SELECT
 FROM
 	divvy_tripdata
 WHERE 
-	ride_duration_seconds > 86400
-	AND rideable_type != 'docked_bike';
+	ride_duration_seconds > 86400;
 
 
 
 SELECT
-	COUNT(*) AS long_rides  -- 1919 records
+	COUNT(*) AS long_rides  -- 1919 records between 12 and 24 hours long
 FROM
 	divvy_tripdata
 WHERE 
-	ride_duration_seconds BETWEEN 43200 AND 86400
-	AND rideable_type != 'docked_bike';
+	ride_duration_seconds BETWEEN 43200 AND 86400;
 
 
 /*
-I think I need to set up a query for tiered counting by ride duration.
+Tiered counting by ride duration.
 
 The results of the distribution show that the VAST majority of rides occur within the timeframe of 0-4 hours.
 The dropoff between 2-4 and 4-6 is very steep.
@@ -757,8 +706,6 @@ SELECT
 	,COUNT(CASE WHEN ride_duration_seconds > 86400 THEN ride_duration_seconds ELSE NULL END) AS 'More than 24 hr'
 FROM 
 	divvy_tripdata
-WHERE
-	rideable_type != 'docked_bike'
 GROUP BY
 	member_casual;
 /*
@@ -774,16 +721,14 @@ SELECT
 	,COUNT(CASE WHEN ride_duration_seconds between 7200 AND 8999 THEN ride_duration_seconds ELSE NULL END) AS '2hr - 2-1/2hr'
 	,COUNT(CASE WHEN ride_duration_seconds between 9000 AND 10799 THEN ride_duration_seconds ELSE NULL END) AS '2-1/2hr - 3hr'
 	,COUNT(CASE WHEN ride_duration_seconds between 10800 AND 12599 THEN ride_duration_seconds ELSE NULL END) AS '3hr - 3-1/2hr'
-	--,COUNT(CASE WHEN ride_duration_seconds between 12600 AND 14399 THEN ride_duration_seconds ELSE NULL END) AS '3-1/2hr - 4hr'
-	--,COUNT(CASE WHEN ride_duration_seconds between 14400 AND 16199 THEN ride_duration_seconds ELSE NULL END) AS '4hr - 4-1/2hr'
-	--,COUNT(CASE WHEN ride_duration_seconds between 16200 AND 17999 THEN ride_duration_seconds ELSE NULL END) AS '4-1/2hr - 5hr'
-	--,COUNT(CASE WHEN ride_duration_seconds between 18000 AND 19799 THEN ride_duration_seconds ELSE NULL END) AS '5hr - 5-1/2hr'
-	--,COUNT(CASE WHEN ride_duration_seconds between 19800 AND 21599 THEN ride_duration_seconds ELSE NULL END) AS '5-1/2hr - 6hr'
-	--,COUNT(CASE WHEN ride_duration_seconds between 21600 AND 23399 THEN ride_duration_seconds ELSE NULL END) AS '6hr - 6-1/2hr'
+	,COUNT(CASE WHEN ride_duration_seconds between 12600 AND 14399 THEN ride_duration_seconds ELSE NULL END) AS '3-1/2hr - 4hr'
+	,COUNT(CASE WHEN ride_duration_seconds between 14400 AND 16199 THEN ride_duration_seconds ELSE NULL END) AS '4hr - 4-1/2hr'
+	,COUNT(CASE WHEN ride_duration_seconds between 16200 AND 17999 THEN ride_duration_seconds ELSE NULL END) AS '4-1/2hr - 5hr'
+	,COUNT(CASE WHEN ride_duration_seconds between 18000 AND 19799 THEN ride_duration_seconds ELSE NULL END) AS '5hr - 5-1/2hr'
+	,COUNT(CASE WHEN ride_duration_seconds between 19800 AND 21599 THEN ride_duration_seconds ELSE NULL END) AS '5-1/2hr - 6hr'
+	,COUNT(CASE WHEN ride_duration_seconds between 21600 AND 23399 THEN ride_duration_seconds ELSE NULL END) AS '6hr - 6-1/2hr'
 FROM 
 	divvy_tripdata
-WHERE
-	rideable_type != 'docked_bike'
 GROUP BY
 	member_casual;
 
@@ -794,7 +739,7 @@ Similar query as above only sorting a grouping by minutes for rides that are les
 
 SELECT
 	member_casual AS 'Rider Type'
---	,COUNT(CASE WHEN ride_duration_seconds BETWEEN 0 AND 59 THEN ride_duration_seconds ELSE NULL END) AS 'Less then 1 minute'
+-- 	,COUNT(CASE WHEN ride_duration_seconds BETWEEN 0 AND 59 THEN ride_duration_seconds ELSE NULL END) AS 'Less then 1 minute'
 	,COUNT(CASE WHEN ride_duration_seconds between 60 AND 599 THEN ride_duration_seconds ELSE NULL END) AS 'Less then 10 minutes'
 	,COUNT(CASE WHEN ride_duration_seconds between 600 AND 899 THEN ride_duration_seconds ELSE NULL END) AS '10-15 minutes'
 	,COUNT(CASE WHEN ride_duration_seconds between 900 AND 1199 THEN ride_duration_seconds ELSE NULL END) AS '15-20 minutes'
@@ -808,48 +753,6 @@ SELECT
 	,COUNT(CASE WHEN ride_duration_seconds between 3300 AND 3600 THEN ride_duration_seconds ELSE NULL END) AS '55-60 minutes'
 FROM 
 	divvy_tripdata
-WHERE
- 	rideable_type != 'docked_bike'
-	OR ride_duration_seconds < 60
 GROUP BY
 	member_casual;
-
-
-
-/*
-AVG() ride duration by day of the week?
-
-members vs casual riders?
-*/
-
-SELECT 
-	DATEPART(WEEKDAY, started_at) AS 'Day of Week'
-	,AVG(CASE WHEN member_casual = 'member' THEN (ride_duration_seconds/60) ELSE NULL END) AS 'Member AVG Ride Duration'
-	,AVG(CASE WHEN member_casual = 'casual' THEN (ride_duration_seconds/60) ELSE NULL END) AS 'Casual AVG Ride Duration'
-FROM
-	divvy_tripdata
-WHERE
-	ride_duration_seconds >= 60
-	AND ride_duration_seconds <= 14400
-	AND rideable_type != 'docked_bike'
-GROUP BY
-	DATEPART(WEEKDAY, started_at)
-ORDER BY
-	DATEPART(WEEKDAY, started_at);
-
-
-/*
-Scratch pad
-*/
-
-USE [CaseStudy1-Cyclistic]
-
-SELECT
-	COUNT(*)
-FROM
-	divvy_tripdata
-WHERE
-	rideable_type = 'docked_bike'
-	OR ride_duration_seconds < 60 
-	OR ride_duration_seconds > (60*60*12);
 
