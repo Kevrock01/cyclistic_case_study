@@ -286,10 +286,7 @@ GROUP BY
 	member_casual;
 
 /*
-Need to find the difference between ended_at and started_at as ride_duration
-
-https://www.sqlservercentral.com/articles/calculating-duration-using-datetime-start-and-end-dates-sql-spackle-2
-
+Need to find the difference between ended_at and started_at as ride_duration.
 The goal is to find the AVG(ride_duration) overall, as well as AVG(ride_duration) for both members and casual riders.
 */
 
