@@ -194,6 +194,29 @@ WHERE
 	member_casual = ' ';
 
 /*
+Count of all records with NULL values
+*/
+
+SELECT
+	COUNT(*)
+FROM
+	divvy_tripdata
+WHERE
+	ride_id = ' '
+	OR rideable_type = ' '
+	OR started_at = ' '
+	OR ended_at = ' '
+	OR	start_station_name = ' '
+	OR	start_station_id = ' '
+	OR	end_station_name = ' '
+	OR end_station_id = ' '
+	OR start_lat = ' '
+	OR start_lng = ' '
+	OR	end_lat = ' '
+	OR	end_lng = ' '
+	OR	member_casual = ' ';
+
+/*
 Count of the number of each distinct rideable types of bikes.
 */
 
@@ -211,7 +234,7 @@ ORDER BY
 	,member_casual;
 
 /*
-The following query is similar to the previous one except that the results are more refined through thre use of a CASE() pivot.
+The following query is similar to the previous one except that the results are more refined through the use of a CASE() pivot.
 */
 
 SELECT
@@ -756,3 +779,98 @@ FROM
 GROUP BY
 	member_casual;
 
+/*
+The results of this query shows an ordered list of hours of the day and a count of rides per hour based on their rider type
+*/
+
+SELECT
+	DATEPART(HOUR, started_at) AS 'Hour of Day'
+	,COUNT(CASE WHEN member_casual = 'member' THEN member_casual ELSE NULL END) as 'Member'
+	,COUNT(CASE WHEN member_casual = 'casual' THEN member_casual ELSE NULL END) as 'Casual'
+FROM
+	divvy_tripdata
+GROUP BY
+	member_casual
+	,DATEPART(HOUR, started_at)
+ORDER BY
+	member_casual
+	,'Hour of Day';
+
+/*
+The results of this query shows an ordered list of hours of the day and a count of rides per hour based on their rider type
+*/
+
+SELECT
+	DATEPART(HOUR, started_at) AS 'Hour of Day'
+	,COUNT(CASE WHEN member_casual = 'member' AND rideable_type = 'classic_bike' THEN member_casual ELSE NULL END) as 'Member Classic'
+	,COUNT(CASE WHEN member_casual = 'member' AND rideable_type = 'electric_bike' THEN member_casual ELSE NULL END) as 'Member Electric'
+	,COUNT(CASE WHEN member_casual = 'casual' AND rideable_type = 'classic_bike' THEN member_casual ELSE NULL END) as 'Casual Classic'
+	,COUNT(CASE WHEN member_casual = 'casual' AND rideable_type = 'electric_bike' THEN member_casual ELSE NULL END) as 'Casual Electric'
+FROM
+	divvy_tripdata
+GROUP BY
+	member_casual
+	,DATEPART(HOUR, started_at)
+ORDER BY
+	member_casual
+	,'Hour of Day';
+
+/*
+The results of this query shows an ordered list of hours of the day and an average ride duration per hour based on their rider type
+*/
+
+SELECT 
+	member_casual AS 'Rider Type'
+	--,DATEPART(HOUR, started_at) AS 'Hour of Day'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 0 THEN (ride_duration_seconds/60) ELSE NULL END) AS '00'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 1 THEN (ride_duration_seconds/60) ELSE NULL END) AS '01'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 2 THEN (ride_duration_seconds/60) ELSE NULL END) AS '02'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 3 THEN (ride_duration_seconds/60) ELSE NULL END) AS '03'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 4 THEN (ride_duration_seconds/60) ELSE NULL END) AS '04'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 5 THEN (ride_duration_seconds/60) ELSE NULL END) AS '05'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 6 THEN (ride_duration_seconds/60) ELSE NULL END) AS '06'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 7 THEN (ride_duration_seconds/60) ELSE NULL END) AS '07'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 8 THEN (ride_duration_seconds/60) ELSE NULL END) AS '08'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 9 THEN (ride_duration_seconds/60) ELSE NULL END) AS '09'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 10 THEN (ride_duration_seconds/60) ELSE NULL END) AS '10'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 11 THEN (ride_duration_seconds/60) ELSE NULL END) AS '11'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 12 THEN (ride_duration_seconds/60) ELSE NULL END) AS '12'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 13 THEN (ride_duration_seconds/60) ELSE NULL END) AS '13'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 14 THEN (ride_duration_seconds/60) ELSE NULL END) AS '14'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 15 THEN (ride_duration_seconds/60) ELSE NULL END) AS '15'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 16 THEN (ride_duration_seconds/60) ELSE NULL END) AS '16'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 17 THEN (ride_duration_seconds/60) ELSE NULL END) AS '17'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 18 THEN (ride_duration_seconds/60) ELSE NULL END) AS '18'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 19 THEN (ride_duration_seconds/60) ELSE NULL END) AS '19'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 20 THEN (ride_duration_seconds/60) ELSE NULL END) AS '20'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 21 THEN (ride_duration_seconds/60) ELSE NULL END) AS '21'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 22 THEN (ride_duration_seconds/60) ELSE NULL END) AS '22'
+	,AVG(CASE WHEN member_casual = 'member' AND DATEPART(HOUR, started_at) = 23 THEN (ride_duration_seconds/60) ELSE NULL END) AS '23'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 0 THEN (ride_duration_seconds/60) ELSE NULL END) AS '00'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 1 THEN (ride_duration_seconds/60) ELSE NULL END) AS '01'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 2 THEN (ride_duration_seconds/60) ELSE NULL END) AS '02'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 3 THEN (ride_duration_seconds/60) ELSE NULL END) AS '03'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 4 THEN (ride_duration_seconds/60) ELSE NULL END) AS '04'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 5 THEN (ride_duration_seconds/60) ELSE NULL END) AS '05'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 6 THEN (ride_duration_seconds/60) ELSE NULL END) AS '06'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 7 THEN (ride_duration_seconds/60) ELSE NULL END) AS '07'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 8 THEN (ride_duration_seconds/60) ELSE NULL END) AS '08'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 9 THEN (ride_duration_seconds/60) ELSE NULL END) AS '09'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 10 THEN (ride_duration_seconds/60) ELSE NULL END) AS '10'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 11 THEN (ride_duration_seconds/60) ELSE NULL END) AS '11'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 12 THEN (ride_duration_seconds/60) ELSE NULL END) AS '12'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 13 THEN (ride_duration_seconds/60) ELSE NULL END) AS '13'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 14 THEN (ride_duration_seconds/60) ELSE NULL END) AS '14'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 15 THEN (ride_duration_seconds/60) ELSE NULL END) AS '15'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 16 THEN (ride_duration_seconds/60) ELSE NULL END) AS '16'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 17 THEN (ride_duration_seconds/60) ELSE NULL END) AS '17'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 18 THEN (ride_duration_seconds/60) ELSE NULL END) AS '18'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 19 THEN (ride_duration_seconds/60) ELSE NULL END) AS '19'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 20 THEN (ride_duration_seconds/60) ELSE NULL END) AS '20'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 21 THEN (ride_duration_seconds/60) ELSE NULL END) AS '21'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 22 THEN (ride_duration_seconds/60) ELSE NULL END) AS '22'
+	,AVG(CASE WHEN member_casual = 'casual' AND DATEPART(HOUR, started_at) = 23 THEN (ride_duration_seconds/60) ELSE NULL END) AS '23'
+FROM
+	divvy_tripdata
+GROUP BY
+	member_casual;
