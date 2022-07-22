@@ -45,6 +45,7 @@ Finally, I created a distribution that showed a count of the rides as they took 
 ### Supporting Visualizations and Key Findings
 The first thing to note is the comparison of the total ride count and ride duration averages.  Members log more rides, but casual riders log more ride time.
 
+*insert image*
 [](https://github.com/Kevrock01/cyclistic_case_study/blob/main/images/ratio-rides-by-member-type.png)
 
 This chart shows the ratio of the two types of riders that logged rides during the study period.  This is not to say that there is a higher population of annual members than casual riders (more data on individual rider habits would need to be collected), but that the members used the bikes at a higher frequency.
