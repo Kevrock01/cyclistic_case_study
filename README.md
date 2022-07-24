@@ -149,15 +149,15 @@ The other observation of note is how consistent the members’ ride durations ar
 ### Top Recommendations Based on Analysis
 
 1. Possibly add additional pricing tier(s) for rider type conversion
-•	Discounted member teaser rate for short period with an automatic subscription renewal at the member price
+    •	Discounted member teaser rate for short period with an automatic subscription renewal at the member price
 
-•	Additional price savings for subscribing to an auto-renewing membership vs manual renewal
+    •	Additional price savings for subscribing to an auto-renewing membership vs manual renewal
 
-•	Create a new package for weekend riders (not primarily commuters)
+    •	Create a new package for weekend riders (not primarily commuters)
 
-•	Create a seasonal-based pass to capture more of the tourism that takes place in the warmer months of the year
+    •	Create a seasonal-based pass to capture more of the tourism that takes place in the warmer months of the year
 
-•	Offer a student discount
+    •	Offer a student discount
 
 2. Raise the prices for casual riders to lower the “payback threshold” of membership
 3. Education outreach about efficiency (Costs, convenience, health, ecological, etc.) of bike usage
