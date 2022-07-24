@@ -45,79 +45,78 @@ Finally, I created a distribution that showed a count of the rides as they took 
 ### Supporting Visualizations and Key Findings
 The first thing to note is the comparison of the total ride count and ride duration averages.  Members log more rides, but casual riders log more ride time.
 
-*insert image*
-[](repository/cyclistic_case_study/images/ratio-rides-by-member-type.png)
+![](https://github.com/Kevrock01/cyclistic_case_study/blob/main/images/ratio-rides-by-member-type.png)
 
 This chart shows the ratio of the two types of riders that logged rides during the study period.  This is not to say that there is a higher population of annual members than casual riders (more data on individual rider habits would need to be collected), but that the members used the bikes at a higher frequency.
 
-*insert image*
+![](https://github.com/Kevrock01/cyclistic_case_study/blob/main/images/average-ride-duration-in-minutes-by-rider-type.png)
 
 The overall average ride duration of a casual rider is almost double that of the average for an annual member.
 One possible explanation for this is that the members appear to use the bikes more as a replacement mode of transportation for everyday activities such as running errands or commuting to work and that the likelihood of them living within the city limits is high.  Since the members don’t have to worry about paying per short duration ride, they would be more likely to utilize the service for a higher frequency of shorter trips.
 The demographics of casual riders has more potential for usage variability.  Tourism produces a temporary influx of potential riders who might not necessarily benefit from a traditional annual membership.  More than likely, the typical casual rider is a short-term visitor who does not live within the city limits and is using the bikes to move around the city’s points of interest.  It’s plausible that they would tend to ride for longer durations because they want to maximize the usage of the bike for the time duration that they paid for.  
 
-*insert image*
+![](https://github.com/Kevrock01/cyclistic_case_study/blob/main/images/total-monthly-rides-by-month-and-rider-type.png)
 
 Looking at a monthly view of total rides, July is the only month where the total ride count for members is eclipsed by the casual riders with August being a relatively close second place.
 Casual ridership notably falls off during the colder months.  This is most likely due to the winter off-season of tourism.  Annual member ride volumes also dropped significantly in the colder months from a high of over 385,000 in August to a low of just under 84,000 in January, but not with the same variance rate as the casual riders who dropped almost as low as 17,000 rides in January from a high of almost 379,000 in July.  This is additional evidence that there is likely a dedicated base of membership that use the bikes for regular commuting around the city and as a vehicle replacement to traditional cars.
 
-*insert image*
+![](https://github.com/Kevrock01/cyclistic_case_study/blob/main/images/ride-count-by-rideable-bike-types.png)
 
 The chart above shows the popularity of the classic bike over the electric by both types of riders.  The fleet bike type population numbers are not readily available from the dataset, so it’s not clear why there is a difference in usage between the classic and electric bikes.  What is clear is that the classic bike is being ridden more often than the electric by both types of riders.
 
-*insert image*
+![](https://github.com/Kevrock01/cyclistic_case_study/blob/main/images/total-daily-rides-by-member-type-and-bike-type.png)
 
 As can be seen in the chart above, casual ridership dramatically peaks on the weekends with a specific focus on classic bike usage when compared to their electric counterparts.  
 Member’s average use of both classic and electric bikes doesn’t show a variance of much significance throughout the course of the week, which can be another example of their use being more utilitarian in nature.  Their usage-peak being mid-week aids to the idea that their purpose is mainly for commuting.
 Although the member ride duration averages for both classic and electric bikes are almost identical, this chart shows that members are riding the classic bikes by an almost 2 to 1 ratio.  It is unclear using this dataset whether they are making a conscious choice to ride the classic bike or if there are other factors at play, such as bike type availability or a lack of education or knowledge regarding electric bike use or benefits.
 Regardless of whether it is a choice, members are appearing to stick with the same bike type with some consistency for their daily commutes.  Casual riders seem to prefer the classic bikes with a higher frequency on the weekends than the electric bikes.  As previously discussed, perhaps it is due to variable factors such as bike availability or an aversion to try an electric bike because it is “different” than what they may be used to.
 
-*insert image*
+![](https://github.com/Kevrock01/cyclistic_case_study/blob/main/images/average-ride-duration-in-minutes-by-rider-and-bike-type.png)
 
 A couple of important points from the chart above are how consistent members are with average ride duration regardless of bike type, how the casual riders have a sizable variance regarding bike type, and also the comparison of ride duration between the casual riders and the members.
 There is a sizable difference between average ride durations of casual riders and annual members.  Keeping in mind that total ride counts for members dwarf those of casual riders, it’s noteworthy that the causal riders use the bikes for much longer average durations that the annual members.  This can potentially be explained by the casual riders’ tendency to be a tourist and wanting to get the most value for their purchase.
 
-*insert image*
+![](https://github.com/Kevrock01/cyclistic_case_study/blob/main/images/avg-weekly-ride-duration-in-minutes-by-member-type-and-bike-type.png)
 
 As seen in the above chart as well as the previous one, members are fairly consistent with average ride duration throughout the week regardless of bike type.  This lends to the assumption that annual members tend to use the bikes more for utilitarian purposes such as commuting.
 Casual riders have a sizable weekly ride duration variance regarding bike type as well as average ride duration when compared to the members.  Having a higher potential for variability, the casual rider demographic-use will be more susceptible to calendar-related trends both in the short and longer term.  This would be why their usage peaks on the weekends and in the warmer months.
 
-*insert image*
+![](https://github.com/Kevrock01/cyclistic_case_study/blob/main/images/total-daily-rides-by-day-of-the-week-and-rider-type.png)
 
 As previously noted, overall, members logged a higher number of rides than casual riders during the study period.  However, on average, the members’ usage is overtaken on the weekends by the casual riders by ride volume.  
 Another thing to take note on this chart is which days shows the maximum and minimum total rides for each of the rider types.  The members’ busiest day of the week is Wednesday, and Sunday is their slowest.  Again, these results are indicative of a mostly commuting, or utilitarian demographic.
 Where casual riders held the top spot for volatility regarding average ride duration when comparing midweek to the weekends, the same is true for the total logged rides.  However, their Monday through Thursday volume is quite consistent.  This could suggest that, for whatever reason, there are a group of casual riders using the bikes for commuting that have not decided to pull the lever on an annual membership and that have potential to be tapped as a source of new annual subscribers.
 Casual riders use the bikes more than members on the weekends with a larger variance (230K) when compared with mid-week use.  Member’s variance from weekend to mid-week (105K) is less pronounced and the daily use frequency is more consistent.
 
-*insert image*
+![](https://github.com/Kevrock01/cyclistic_case_study/blob/main/images/avg-ride-duration-in-minutes-by-rider-type-and-day-of-the-week.png)
 
 Although members logged more rides, casual riders rode for longer average durations throughout the week.  Members ride the longest on the weekends with a 25% variance between an average of 15 minutes on Sundays to 12 minutes on Monday through Wednesday.  Casual riders also rode for the longest average duration on the weekends with a 33% variance in average between Sunday and Wednesday/Thursday.
 Members mid-week use is more uniform with less variation.  They rode for an average duration of 12 minutes Monday through Thursday with a slight uptick on Friday and into the weekend.  This is most likely due to the members using the bikes primarily to commute to work around the city during the week and perhaps the addition of leisure rides or running errands on the weekends.
 Casual riders’ use of the bikes has more variance throughout the week.  Their use peaks on the weekends which would likely have less to do with commuting and more to do with tourism.
 
-*insert image*
+![](https://github.com/Kevrock01/cyclistic_case_study/blob/main/images/count-of-total-ride-duration-by-hours.png)
 
 This chart demonstrates that the majority of all rides are 2 hours or less.  This makes sense because the pricing structure has been designed in such a way to favor short duration rides by specifying a fixed base ride duration with a per-minute additional charge beyond that timeframe.
 
-*insert image*
+![](https://github.com/Kevrock01/cyclistic_case_study/blob/main/images/grouped-ride-duration-by-rider-type.png)
 
 If we zoom in a little closer, we can see that many of the rides are less than 30 minutes in length.
 
-*insert image*
+![](https://github.com/Kevrock01/cyclistic_case_study/blob/main/images/count-of-grouped-ride-duration-by-rider-type-in-minutes.png)
 
 This chart shows that the largest percentage of rides are 10 minutes or less in duration for both members and casual riders.  It also shows the level to which the members far outpace casual riders in volume.  This makes sense with the casual riders’ higher average ride duration.  However, a portion of these shorter-ride-duration casual riders are most likely the ones that are using the service for commuting purposes and should be subscribing to an annual membership.  These are the riders that the new marketing campaign should be paying specific attention to.
 Due to the pricing structure, it can be assumed that the annual members are more comfortable using their unlimited short rides than the casual riders who must pay for each individual trip.  Making some adjustments to the pricing structure could favorably tip the scales to a larger annual membership.
 
-*insert image*
+![](https://github.com/Kevrock01/cyclistic_case_study/blob/main/images/count-of-rides-per-hour-of-the-day-by-member-type.png)
 
 The final analysis that this report will discuss is based on the time of day that rides are typically taking place.  As can be seen in the chart above, members still command most of the ride volume throughout a typical day with spikes at 08:00, 12:00, and 17:00.  This shows their highest traffic times during rush-hour commuting and lunch.  One thing that is interesting is that more member rides are taking place in the evening than in the morning.  It could be that members may be utilizing one type of public transportation going to work and then riding bikes home, or it could be that there are members that use the bikes after work as a means of exercise or running errands.
 A potentially fair assumption of people on vacation is reinforced by the fact that casual riders don’t appear to be morning people as can be seen in this chart.  Their day doesn’t really seem to ramp up until about 09:00 with a steady rise in volume through lunch and leading up to dinner.  They do utilize the bikes more for nightlife than the members do, but the numbers are rather insignificant for the purpose of this project.
 
-*insert image*
+![](https://github.com/Kevrock01/cyclistic_case_study/blob/main/images/count-of-rides-per-hour-of-the-day-by-member-type-and-bike-type.png)
 
 The results of sorting the ride volume by rider type and bike type is in line with previously reported results regarding bike type popularity.  For both types of riders, the overall dominance of the classic bike continues to reign.  There is a 2-hour window of time very early in the morning when the causal rider use of electric bikes holds the top spot. However, similarly to the casual rider nightlife volume, the numbers are insignificant and of little value, if any, to incorporate into a marketing strategy.
 
-*insert image*
+![](https://github.com/Kevrock01/cyclistic_case_study/blob/main/images/avg-ride-duration-per-hour-of-the-day.png)
 
 As has been the case in previous portions of the analysis, the causal riders are consistently riding for longer average durations than the members.  One thing that is interesting is that during the overnight hours when the ride volume is nearing its lowest point in the day, the casual riders are riding for their longest average durations.  Why would this be?  A possible explanation could come from Chicago’s robust late-night bar and restaurant scene.  There are a number of establishments that have liquor licenses that allow them to pour drinks until 04:00 most of the week and 05:00 on Saturdays.
 The other observation of note is how consistent the members’ ride durations are throughout the day.  Interestingly, they are taking their longest average rides in the overnight hours just as the casual riders are.  However, for the purposes of this analysis and the proposed marketing strategy, the focus should be placed on the times with the highest ride volumes.
