@@ -28,7 +28,8 @@ The data was downloaded as individual monthly .zip files into a specified folder
 Using a high-level overview of the data to determine the level of its reliability, it’s readily noticeable that there is a sizable percentage of NULL, or missing, values.  However, since they’re all related to location data (verified through the cleaning process and discussed in the next section), which was not being used at this time for the purpose of this analysis, it was determined that they provided the required/desired values and therefore would be included in the cleaned dataset and final analysis so as not to limit the breadth of the overall data set and the corresponding results.  
 
 ### Documentation of Cleaning/Manipulation of Data
-Microsoft SQL Server Management Studio was used for data cleaning and wrangling due to the size of the dataset and familiarity with the SQL database language.  
+Microsoft SQL Server Management Studio was used for data cleaning and wrangling due to the size of the dataset and familiarity with the SQL database language.  If you would like to view the code that I used you can find it [here](https://github.com/Kevrock01/cyclistic_case_study/blob/main/cyclistic_case_study_2022_2.0.sql)
+
 I began by creating a Cyclistic database and importing the data using the 64-bit SQL Server 2019 Import and Export Data Wizard.  Once all the data was properly imported, I created a new table that would be populated by all the data contained in the 12 monthly tables.  For this I used the Union function.
 The first task I performed on the raw aggregate table was to do an overall record count.  The total came to over 5.7 million.  I also wanted to double check that there weren’t any duplicate rows, so I repeated the count, but added a qualifying criterion to the function to only count the records with distinct ride ids.  Since the count results came back identical, I was left to assume that there are no duplicate rows in the table.
 
