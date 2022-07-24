@@ -78,7 +78,8 @@ The chart above shows the popularity of the classic bike over the electric by bo
 
 ![](https://github.com/Kevrock01/cyclistic_case_study/blob/main/images/total-daily-rides-by-member-type-and-bike-type.png)
 
-As can be seen in the chart above, casual ridership dramatically peaks on the weekends with a specific focus on classic bike usage when compared to their electric counterparts.  
+As can be seen in the chart above, casual ridership dramatically peaks on the weekends with a specific focus on classic bike usage when compared to their electric counterparts.
+
 Member’s average use of both classic and electric bikes doesn’t show a variance of much significance throughout the course of the week, which can be another example of their use being more utilitarian in nature.  Their usage-peak being mid-week aids to the idea that their purpose is mainly for commuting.
 
 Although the member ride duration averages for both classic and electric bikes are almost identical, this chart shows that members are riding the classic bikes by an almost 2 to 1 ratio.  It is unclear using this dataset whether they are making a conscious choice to ride the classic bike or if there are other factors at play, such as bike type availability or a lack of education or knowledge regarding electric bike use or benefits.
