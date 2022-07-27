@@ -6,6 +6,23 @@
 Hello, my name is Kevin, and for the purposes of this case study I’m a Junior Data Analyst in the marketing department for the bike sharing program called Cyclistic.  The venture was launched in 2016 and the current fleet consists of 5824 geo-tracked bicycles that are locked into a network of 692 stations located in and around the city of Chicago.
 
 
+## Table of Contents
+[A Clear Statement of the Business Task](https://github.com/Kevrock01/cyclistic_case_study#a-clear-statement-of-the-business-task)
+
+[Description of Data Sources Used for Analysis](https://github.com/Kevrock01/cyclistic_case_study#description-of-data-sources-used-for-analysis)
+
+[Documentation of Cleaning/Manipulation of Data](https://github.com/Kevrock01/cyclistic_case_study#documentation-of-cleaningmanipulation-of-data)
+
+[Summary of Analysis and Discussion](https://github.com/Kevrock01/cyclistic_case_study#summary-of-analysis-and-discussion)
+
+[Supporting Visualizations and Key Findings](https://github.com/Kevrock01/cyclistic_case_study#supporting-visualizations-and-key-findings)
+
+[Top Recommendations Based on Analysis](https://github.com/Kevrock01/cyclistic_case_study#top-recommendations-based-on-analysis)
+
+[Possible Further Actions](https://github.com/Kevrock01/cyclistic_case_study#possible-further-actions)
+
+
+
 ### A Clear Statement of the Business Task
 Lily Moreno, who is the director of marketing as well as my manager, has tasked the marketing department with the goal to “design marketing strategies aimed at converting casual riders into annual members.”
 Three questions are being given to guide the future marketing program:
